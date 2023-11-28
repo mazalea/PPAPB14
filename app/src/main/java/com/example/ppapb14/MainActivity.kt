@@ -66,6 +66,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnUpdate.setOnClickListener {
+            val flag2 = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.FLAG_UPDATE_CURRENT
+            }
+            else {
+                0
+            }
+            val intentt = Intent(this, MainActivity::class.java)
+            val pendingIntentt = PendingIntent.getActivity(
+                this,
+                0,
+                intentt,
+                flag2
+            )
+
             val notifImage = BitmapFactory.decodeResource(resources,
                 R.drawable.img)
             val builder = NotificationCompat.Builder(this, channelId)
@@ -78,6 +92,7 @@ class MainActivity : AppCompatActivity() {
                 )
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntentt)
             notifManager.notify(notifId, builder.build())
         }
 
